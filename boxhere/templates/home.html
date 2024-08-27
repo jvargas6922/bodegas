@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h1>Noticias de Interés</h1>
+    <div class="row">
+        {% for noticia in noticias %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    {% if noticia.imagen_url %}
+                        <img src="{{ noticia.imagen_url }}" class="card-img-top" alt="Imagen de {{ noticia.titulo }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="No image">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ noticia.titulo }}</h5>
+                        <p class="card-text">{{ noticia.cuerpo|truncatewords:20 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Contador de likes -->
+                            <small class="text-muted">{{ noticia.like_set.count }} likes</small>
+                            <a href="{% url 'like_noticia' noticia.id %}" class="btn btn-like btn-outline-primary btn-sm">
+                                {% if request.user in noticia.like_set.all %}
+                                    Unlike
+                                {% else %}
+                                    Like
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

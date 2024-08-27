@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h1>Resultado de la Cotización</h1>
+    <ul class="list-group">
+        {% for bodega in detalles %}
+            <li class="list-group-item">
+                {{ bodega.codigo }} - {{ bodega.tipo_bodega.tipo }} / ${{ bodega.tipo_bodega.precio }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h3 class="mt-4">Total: ${{ total }}</h3>
+</div>
+{% endblock %}

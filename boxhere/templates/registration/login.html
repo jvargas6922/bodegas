@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+
+{% block contenido %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+                </form>
+                <p class="text-center"><a href="{% url 'register' %}">¿No tienes una cuenta? Regístrate aquí</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

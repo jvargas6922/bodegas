@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h1>Cotiza tus bodegas</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="tipo_bodega" class="form-label">Seleccione tipo de Bodega</label>
+                    <select id="tipo_bodega" name="tipo_bodega" class="form-select">
+                        <option value="" disabled selected>Seleccione tipo de bodega</option>
+                        {% for tipo in tipos_bodegas %}
+                            <option value="{{ tipo.id }}">{{ tipo.tipo }} / {{ tipo.metros }}m² / ${{ tipo.precio }}</option>
+                        {% endfor %}
+                    </select>                    
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar</button>
+            </form>
+
+            <h2 class="my-3">Bodegas Seleccionadas</h2>
+            <ul class="list-group">
+                {% for bodega in request.session.bodegas_seleccionadas %}
+                    <li class="list-group-item">
+                        {{ bodega.codigo }} - {{ bodega.tipo }} / ${{ bodega.precio }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <form method="get" action="{% url 'resultado_cotizacion' %}">
+                <button type="submit" class="btn btn-success my-1">Cotizar</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Tipos Disponibles</h2>
+            <ul class="list-group">
+                {% for tipo in tipos_bodegas %}
+                    <li class="list-group-item">
+                        {{ tipo.tipo }} / {{ tipo.metros }}m² / ${{ tipo.precio }}
+                        <ul>
+                            {% if tipo.quimicos %}
+                                <li>Preparada para Químicos Industriales</li>
+                            {% endif %}
+                            {% if tipo.organicos %}
+                                <li>Preparada para Material Orgánico</li>
+                            {% endif %}
+                            {% if tipo.hermetica %}
+                                <li>Hermética</li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
